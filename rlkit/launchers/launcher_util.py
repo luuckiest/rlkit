@@ -251,7 +251,8 @@ def setup_logger(
         git_infos = get_git_infos(conf.CODE_DIRS_TO_MOUNT)
     first_time = log_dir is None
     if first_time:
-        log_dir = create_log_dir(exp_prefix, **create_log_dir_kwargs)
+        #log_dir = create_log_dir(exp_prefix, **create_log_dir_kwargs)
+        log_dir = create_log_dir(exp_prefix)
 
     if variant is not None:
         logger.log("Variant:")

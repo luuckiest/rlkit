@@ -1,0 +1,25 @@
+diff --git a/examples/skewfit/sawyer_door.py b/examples/skewfit/sawyer_door.py
+index 823120b..839f537 100644
+--- a/examples/skewfit/sawyer_door.py
++++ b/examples/skewfit/sawyer_door.py
+@@ -131,6 +131,6 @@ if __name__ == "__main__":
+                 exp_prefix=exp_prefix,
+                 mode=mode,
+                 variant=variant,
+-                use_gpu=True,
++                use_gpu=False,
+           )
+ 
+diff --git a/rlkit/launchers/conf.py b/rlkit/launchers/conf.py
+index c567d90..087e252 100644
+--- a/rlkit/launchers/conf.py
++++ b/rlkit/launchers/conf.py
+@@ -52,7 +52,7 @@ RUN_DOODAD_EXPERIMENT_SCRIPT_PATH = (
+ AWS Settings
+ """
+ # If not set, default will be chosen by doodad
+-# AWS_S3_PATH = 's3://bucket/directory
++AWS_S3_PATH = 's3://bucket/directory'
+ 
+ # The docker image is looked up on dockerhub.com.
+ DOODAD_DOCKER_IMAGE = "TODO"

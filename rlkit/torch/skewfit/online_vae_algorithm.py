@@ -47,6 +47,7 @@ class OnlineVaeAlgorithm(TorchBatchRLAlgorithm):
 
     def _train(self):
         super()._train()
+        print("_train")
         self._cleanup()
 
     def _end_epoch(self, epoch):
@@ -150,6 +151,7 @@ class OnlineVaeAlgorithm(TorchBatchRLAlgorithm):
 
 def _train_vae(vae_trainer, replay_buffer, epoch, batches=50, oracle_data=False):
     batch_sampler = replay_buffer.random_vae_training_data
+    print("_train_vae")
     if oracle_data:
         batch_sampler = None
     vae_trainer.train_epoch(
@@ -162,6 +164,7 @@ def _train_vae(vae_trainer, replay_buffer, epoch, batches=50, oracle_data=False)
 
 def _test_vae(vae_trainer, epoch, replay_buffer, vae_save_period=1, uniform_dataset=None):
     save_imgs = epoch % vae_save_period == 0
+    print("test_vae")
     log_fit_skew_stats = replay_buffer._prioritize_vae_samples and uniform_dataset is not None
     if uniform_dataset is not None:
         replay_buffer.log_loss_under_uniform(uniform_dataset, vae_trainer.batch_size, rl_logger=vae_trainer.vae_logger_stats_for_rl)

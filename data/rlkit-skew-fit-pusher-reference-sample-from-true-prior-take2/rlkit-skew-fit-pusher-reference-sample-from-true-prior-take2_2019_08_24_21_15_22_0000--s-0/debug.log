@@ -1,0 +1,506 @@
+2019-08-24 21:16:30.732753 EDT | [rlkit-skew-fit-pusher-reference-sample-from-true-prior-take2_2019_08_24_21_15_22_0000--s-0] Epoch 0 finished
+-------------------------------------------------  ----------------
+vae_trainer/train/log prob                         -12229.2
+vae_trainer/train/KL                                   17.4071
+vae_trainer/train/loss                              12577.4
+vae_trainer/epoch                                       0
+vae_trainer/test/log prob                          -11534.9
+vae_trainer/test/KL                                    10.0131
+vae_trainer/test/loss                               11735.2
+vae_trainer/beta                                       20
+replay_buffer/VAE Sample Weights Mean                   0.00166667
+replay_buffer/VAE Sample Weights Std                    0.00994026
+replay_buffer/VAE Sample Weights Max                    0.150306
+replay_buffer/VAE Sample Weights Min                    5.32326e-08
+replay_buffer/VAE Sample Probs Mean                     0.00166667
+replay_buffer/VAE Sample Probs Std                      0.00994026
+replay_buffer/VAE Sample Probs Max                      0.150306
+replay_buffer/VAE Sample Probs Min                      5.32326e-08
+trainer/QF1 Loss                                        1.11495
+trainer/QF2 Loss                                        1.11522
+trainer/Policy Loss                                    -1.33914
+trainer/Q1 Predictions Mean                            -0.00704227
+trainer/Q1 Predictions Std                              0.000763629
+trainer/Q1 Predictions Max                             -0.00466787
+trainer/Q1 Predictions Min                             -0.00969198
+trainer/Q2 Predictions Mean                             0.00271053
+trainer/Q2 Predictions Std                              0.000608952
+trainer/Q2 Predictions Max                              0.00467754
+trainer/Q2 Predictions Min                              0.000588765
+trainer/Q Targets Mean                                 -0.00102857
+trainer/Q Targets Std                                   1.05591
+trainer/Q Targets Max                                   2.42082
+trainer/Q Targets Min                                  -2.87953
+trainer/Log Pis Mean                                   -1.34617
+trainer/Log Pis Std                                     0.310256
+trainer/Log Pis Max                                    -0.526188
+trainer/Log Pis Min                                    -1.96769
+trainer/Policy mu Mean                                  0.000543668
+trainer/Policy mu Std                                   0.00134187
+trainer/Policy mu Max                                   0.00288713
+trainer/Policy mu Min                                  -0.00151731
+trainer/Policy log std Mean                             0.000993394
+trainer/Policy log std Std                              0.000300603
+trainer/Policy log std Max                              0.00208322
+trainer/Policy log std Min                             -0.000282978
+trainer/Alpha                                           0.999
+trainer/Alpha Loss                                     -0
+exploration/num steps total                           600
+exploration/num paths total                            12
+exploration/path length Mean                           50
+exploration/path length Std                             0
+exploration/path length Max                            50
+exploration/path length Min                            50
+exploration/hand_distance Mean                          0.098672
+exploration/hand_distance Std                           0.0352424
+exploration/hand_distance Max                           0.193313
+exploration/hand_distance Min                           0.0366005
+exploration/Final hand_distance Mean                    0.0929241
+exploration/Final hand_distance Std                     0.0317881
+exploration/Final hand_distance Max                     0.156091
+exploration/Final hand_distance Min                     0.0487192
+exploration/puck_distance Mean                          0.0987223
+exploration/puck_distance Std                           0.0389307
+exploration/puck_distance Max                           0.149499
+exploration/puck_distance Min                           0.00676273
+exploration/Final puck_distance Mean                    0.0975002
+exploration/Final puck_distance Std                     0.0466641
+exploration/Final puck_distance Max                     0.149474
+exploration/Final puck_distance Min                     0.00676564
+exploration/touch_distance Mean                         0.0962002
+exploration/touch_distance Std                          0.0193281
+exploration/touch_distance Max                          0.142256
+exploration/touch_distance Min                          0.0563105
+exploration/Final touch_distance Mean                   0.0953654
+exploration/Final touch_distance Std                    0.0217103
+exploration/Final touch_distance Max                    0.142256
+exploration/Final touch_distance Min                    0.0658749
+exploration/success Mean                                0.006
+exploration/success Std                                 0.0772269
+exploration/success Max                                 1
+exploration/success Min                                 0
+exploration/Final success Mean                          0
+exploration/Final success Std                           0
+exploration/Final success Max                           0
+exploration/Final success Min                           0
+exploration/image_dist Mean                            11.7365
+exploration/image_dist Std                              1.87199
+exploration/image_dist Max                             15.4077
+exploration/image_dist Min                              6.54737
+exploration/Final image_dist Mean                      12.6674
+exploration/Final image_dist Std                        1.45677
+exploration/Final image_dist Max                       14.7867
+exploration/Final image_dist Min                       10.9341
+exploration/image_success Mean                         -0.828
+exploration/image_success Std                           0.37738
+exploration/image_success Max                           0
+exploration/image_success Min                          -1
+exploration/Final image_success Mean                   -1
+exploration/Final image_success Std                     0
+exploration/Final image_success Max                    -1
+exploration/Final image_success Min                    -1
+exploration/vae_mdist Mean                           2153.12
+exploration/vae_mdist Std                             984.287
+exploration/vae_mdist Max                            3535.5
+exploration/vae_mdist Min                             439.299
+exploration/Final vae_mdist Mean                     2153.12
+exploration/Final vae_mdist Std                       984.286
+exploration/Final vae_mdist Max                      3535.5
+exploration/Final vae_mdist Min                       439.301
+exploration/vae_success Mean                            0
+exploration/vae_success Std                             0
+exploration/vae_success Max                             0
+exploration/vae_success Min                             0
+exploration/Final vae_success Mean                      0
+exploration/Final vae_success Std                       0
+exploration/Final vae_success Max                       0
+exploration/Final vae_success Min                       0
+exploration/vae_dist Mean                               2.00532
+exploration/vae_dist Std                                0.535908
+exploration/vae_dist Max                                2.66001
+exploration/vae_dist Min                                0.937565
+exploration/Final vae_dist Mean                         2.00532
+exploration/Final vae_dist Std                          0.535908
+exploration/Final vae_dist Max                          2.66001
+exploration/Final vae_dist Min                          0.937567
+exploration/Rewards Mean                               -2.00532
+exploration/Rewards Std                                 0.535908
+exploration/Rewards Max                                -0.937565
+exploration/Rewards Min                                -2.66001
+exploration/Returns Mean                             -100.266
+exploration/Returns Std                                26.7954
+exploration/Returns Max                               -46.8783
+exploration/Returns Min                              -133.001
+exploration/Actions Mean                                0.029556
+exploration/Actions Std                                 0.62994
+exploration/Actions Max                                 0.992085
+exploration/Actions Min                                -0.99684
+exploration/Num Paths                                  10
+exploration/Average Returns                          -100.266
+exploration/env_infos/final/hand_distance Mean          0.0929241
+exploration/env_infos/final/hand_distance Std           0.0317881
+exploration/env_infos/final/hand_distance Max           0.156091
+exploration/env_infos/final/hand_distance Min           0.0487192
+exploration/env_infos/initial/hand_distance Mean        0.113882
+exploration/env_infos/initial/hand_distance Std         0.0296697
+exploration/env_infos/initial/hand_distance Max         0.148866
+exploration/env_infos/initial/hand_distance Min         0.0609482
+exploration/env_infos/hand_distance Mean                0.098672
+exploration/env_infos/hand_distance Std                 0.0352424
+exploration/env_infos/hand_distance Max                 0.193313
+exploration/env_infos/hand_distance Min                 0.0366005
+exploration/env_infos/final/puck_distance Mean          0.0975002
+exploration/env_infos/final/puck_distance Std           0.0466641
+exploration/env_infos/final/puck_distance Max           0.149474
+exploration/env_infos/final/puck_distance Min           0.00676564
+exploration/env_infos/initial/puck_distance Mean        0.102413
+exploration/env_infos/initial/puck_distance Std         0.0291319
+exploration/env_infos/initial/puck_distance Max         0.144913
+exploration/env_infos/initial/puck_distance Min         0.0384636
+exploration/env_infos/puck_distance Mean                0.0987223
+exploration/env_infos/puck_distance Std                 0.0389307
+exploration/env_infos/puck_distance Max                 0.149499
+exploration/env_infos/puck_distance Min                 0.00676273
+exploration/env_infos/final/touch_distance Mean         0.0953654
+exploration/env_infos/final/touch_distance Std          0.0217103
+exploration/env_infos/final/touch_distance Max          0.142256
+exploration/env_infos/final/touch_distance Min          0.0658749
+exploration/env_infos/initial/touch_distance Mean       0.1059
+exploration/env_infos/initial/touch_distance Std        0.00054688
+exploration/env_infos/initial/touch_distance Max        0.106726
+exploration/env_infos/initial/touch_distance Min        0.105143
+exploration/env_infos/touch_distance Mean               0.0962002
+exploration/env_infos/touch_distance Std                0.0193281
+exploration/env_infos/touch_distance Max                0.142256
+exploration/env_infos/touch_distance Min                0.0563105
+exploration/env_infos/final/success Mean                0
+exploration/env_infos/final/success Std                 0
+exploration/env_infos/final/success Max                 0
+exploration/env_infos/final/success Min                 0
+exploration/env_infos/initial/success Mean              0
+exploration/env_infos/initial/success Std               0
+exploration/env_infos/initial/success Max               0
+exploration/env_infos/initial/success Min               0
+exploration/env_infos/success Mean                      0.006
+exploration/env_infos/success Std                       0.0772269
+exploration/env_infos/success Max                       1
+exploration/env_infos/success Min                       0
+exploration/env_infos/final/image_dist Mean            12.6674
+exploration/env_infos/final/image_dist Std              1.45677
+exploration/env_infos/final/image_dist Max             14.7867
+exploration/env_infos/final/image_dist Min             10.9341
+exploration/env_infos/initial/image_dist Mean          10.0861
+exploration/env_infos/initial/image_dist Std            1.33796
+exploration/env_infos/initial/image_dist Max           11.7083
+exploration/env_infos/initial/image_dist Min            7.4115
+exploration/env_infos/image_dist Mean                  11.7365
+exploration/env_infos/image_dist Std                    1.87199
+exploration/env_infos/image_dist Max                   15.4077
+exploration/env_infos/image_dist Min                    6.54737
+exploration/env_infos/final/image_success Mean         -1
+exploration/env_infos/final/image_success Std           0
+exploration/env_infos/final/image_success Max          -1
+exploration/env_infos/final/image_success Min          -1
+exploration/env_infos/initial/image_success Mean       -0.7
+exploration/env_infos/initial/image_success Std         0.458258
+exploration/env_infos/initial/image_success Max         0
+exploration/env_infos/initial/image_success Min        -1
+exploration/env_infos/image_success Mean               -0.828
+exploration/env_infos/image_success Std                 0.37738
+exploration/env_infos/image_success Max                 0
+exploration/env_infos/image_success Min                -1
+exploration/env_infos/final/vae_mdist Mean           2153.12
+exploration/env_infos/final/vae_mdist Std             984.286
+exploration/env_infos/final/vae_mdist Max            3535.5
+exploration/env_infos/final/vae_mdist Min             439.301
+exploration/env_infos/initial/vae_mdist Mean         2153.12
+exploration/env_infos/initial/vae_mdist Std           984.287
+exploration/env_infos/initial/vae_mdist Max          3535.49
+exploration/env_infos/initial/vae_mdist Min           439.3
+exploration/env_infos/vae_mdist Mean                 2153.12
+exploration/env_infos/vae_mdist Std                   984.287
+exploration/env_infos/vae_mdist Max                  3535.5
+exploration/env_infos/vae_mdist Min                   439.299
+exploration/env_infos/final/vae_success Mean            0
+exploration/env_infos/final/vae_success Std             0
+exploration/env_infos/final/vae_success Max             0
+exploration/env_infos/final/vae_success Min             0
+exploration/env_infos/initial/vae_success Mean          0
+exploration/env_infos/initial/vae_success Std           0
+exploration/env_infos/initial/vae_success Max           0
+exploration/env_infos/initial/vae_success Min           0
+exploration/env_infos/vae_success Mean                  0
+exploration/env_infos/vae_success Std                   0
+exploration/env_infos/vae_success Max                   0
+exploration/env_infos/vae_success Min                   0
+exploration/env_infos/final/vae_dist Mean               2.00532
+exploration/env_infos/final/vae_dist Std                0.535908
+exploration/env_infos/final/vae_dist Max                2.66001
+exploration/env_infos/final/vae_dist Min                0.937567
+exploration/env_infos/initial/vae_dist Mean             2.00532
+exploration/env_infos/initial/vae_dist Std              0.535908
+exploration/env_infos/initial/vae_dist Max              2.66001
+exploration/env_infos/initial/vae_dist Min              0.937566
+exploration/env_infos/vae_dist Mean                     2.00532
+exploration/env_infos/vae_dist Std                      0.535908
+exploration/env_infos/vae_dist Max                      2.66001
+exploration/env_infos/vae_dist Min                      0.937565
+exploration/env_infos/final/vae_dist_l1 Mean            3.42752
+exploration/env_infos/final/vae_dist_l1 Std             0.992304
+exploration/env_infos/final/vae_dist_l1 Max             5.1714
+exploration/env_infos/final/vae_dist_l1 Min             1.71655
+exploration/env_infos/initial/vae_dist_l1 Mean          3.42752
+exploration/env_infos/initial/vae_dist_l1 Std           0.992304
+exploration/env_infos/initial/vae_dist_l1 Max           5.1714
+exploration/env_infos/initial/vae_dist_l1 Min           1.71655
+exploration/env_infos/vae_dist_l1 Mean                  3.42752
+exploration/env_infos/vae_dist_l1 Std                   0.992304
+exploration/env_infos/vae_dist_l1 Max                   5.1714
+exploration/env_infos/vae_dist_l1 Min                   1.71655
+exploration/env_infos/final/vae_dist_l2 Mean            2.00532
+exploration/env_infos/final/vae_dist_l2 Std             0.535908
+exploration/env_infos/final/vae_dist_l2 Max             2.66001
+exploration/env_infos/final/vae_dist_l2 Min             0.937567
+exploration/env_infos/initial/vae_dist_l2 Mean          2.00532
+exploration/env_infos/initial/vae_dist_l2 Std           0.535908
+exploration/env_infos/initial/vae_dist_l2 Max           2.66001
+exploration/env_infos/initial/vae_dist_l2 Min           0.937566
+exploration/env_infos/vae_dist_l2 Mean                  2.00532
+exploration/env_infos/vae_dist_l2 Std                   0.535908
+exploration/env_infos/vae_dist_l2 Max                   2.66001
+exploration/env_infos/vae_dist_l2 Min                   0.937565
+evaluation/num steps total                            500
+evaluation/num paths total                             10
+evaluation/path length Mean                            50
+evaluation/path length Std                              0
+evaluation/path length Max                             50
+evaluation/path length Min                             50
+evaluation/hand_distance Mean                           0.11264
+evaluation/hand_distance Std                            0.0293975
+evaluation/hand_distance Max                            0.150553
+evaluation/hand_distance Min                            0.0570151
+evaluation/Final hand_distance Mean                     0.112115
+evaluation/Final hand_distance Std                      0.0292309
+evaluation/Final hand_distance Max                      0.149346
+evaluation/Final hand_distance Min                      0.0570473
+evaluation/puck_distance Mean                           0.103197
+evaluation/puck_distance Std                            0.0371468
+evaluation/puck_distance Max                            0.150302
+evaluation/puck_distance Min                            0.0316076
+evaluation/Final puck_distance Mean                     0.103197
+evaluation/Final puck_distance Std                      0.0371467
+evaluation/Final puck_distance Max                      0.150301
+evaluation/Final puck_distance Min                      0.0316076
+evaluation/touch_distance Mean                          0.104687
+evaluation/touch_distance Std                           0.00022508
+evaluation/touch_distance Max                           0.105359
+evaluation/touch_distance Min                           0.104169
+evaluation/Final touch_distance Mean                    0.10417
+evaluation/Final touch_distance Std                     1.67019e-06
+evaluation/Final touch_distance Max                     0.104174
+evaluation/Final touch_distance Min                     0.104169
+evaluation/success Mean                                 0
+evaluation/success Std                                  0
+evaluation/success Max                                  0
+evaluation/success Min                                  0
+evaluation/Final success Mean                           0
+evaluation/Final success Std                            0
+evaluation/Final success Max                            0
+evaluation/Final success Min                            0
+evaluation/image_dist Mean                             10.2837
+evaluation/image_dist Std                               1.10935
+evaluation/image_dist Max                              11.9466
+evaluation/image_dist Min                               8.15692
+evaluation/Final image_dist Mean                       10.2661
+evaluation/Final image_dist Std                         1.09998
+evaluation/Final image_dist Max                        11.8225
+evaluation/Final image_dist Min                         8.24068
+evaluation/image_success Mean                          -0.604
+evaluation/image_success Std                            0.489064
+evaluation/image_success Max                            0
+evaluation/image_success Min                           -1
+evaluation/Final image_success Mean                    -0.7
+evaluation/Final image_success Std                      0.458258
+evaluation/Final image_success Max                      0
+evaluation/Final image_success Min                     -1
+evaluation/vae_mdist Mean                               3.97505e-09
+evaluation/vae_mdist Std                                2.05381e-09
+evaluation/vae_mdist Max                                9.31564e-09
+evaluation/vae_mdist Min                                3.80635e-10
+evaluation/Final vae_mdist Mean                         4.62442e-09
+evaluation/Final vae_mdist Std                          2.31343e-09
+evaluation/Final vae_mdist Max                          8.58299e-09
+evaluation/Final vae_mdist Min                          1.20156e-09
+evaluation/vae_success Mean                             1
+evaluation/vae_success Std                              0
+evaluation/vae_success Max                              1
+evaluation/vae_success Min                              1
+evaluation/Final vae_success Mean                       1
+evaluation/Final vae_success Std                        0
+evaluation/Final vae_success Max                        1
+evaluation/Final vae_success Min                        1
+evaluation/vae_dist Mean                                2.7197e-06
+evaluation/vae_dist Std                                 7.46326e-07
+evaluation/vae_dist Max                                 4.31695e-06
+evaluation/vae_dist Min                                 8.72732e-07
+evaluation/Final vae_dist Mean                          2.93593e-06
+evaluation/Final vae_dist Std                           7.95914e-07
+evaluation/Final vae_dist Max                           4.14416e-06
+evaluation/Final vae_dist Min                           1.55063e-06
+evaluation/Rewards Mean                                -2.7197e-06
+evaluation/Rewards Std                                  7.46326e-07
+evaluation/Rewards Max                                 -8.72732e-07
+evaluation/Rewards Min                                 -4.31695e-06
+evaluation/Returns Mean                                -0.000135985
+evaluation/Returns Std                                  3.60254e-05
+evaluation/Returns Max                                 -7.94459e-05
+evaluation/Returns Min                                 -0.000194075
+evaluation/Actions Mean                                 0.000527134
+evaluation/Actions Std                                  0.0013274
+evaluation/Actions Max                                  0.00185453
+evaluation/Actions Min                                 -0.000800265
+evaluation/Num Paths                                   10
+evaluation/Average Returns                             -0.000135985
+evaluation/env_infos/final/hand_distance Mean           0.112115
+evaluation/env_infos/final/hand_distance Std            0.0292309
+evaluation/env_infos/final/hand_distance Max            0.149346
+evaluation/env_infos/final/hand_distance Min            0.0570473
+evaluation/env_infos/initial/hand_distance Mean         0.113306
+evaluation/env_infos/initial/hand_distance Std          0.0294003
+evaluation/env_infos/initial/hand_distance Max          0.150034
+evaluation/env_infos/initial/hand_distance Min          0.0571489
+evaluation/env_infos/hand_distance Mean                 0.11264
+evaluation/env_infos/hand_distance Std                  0.0293975
+evaluation/env_infos/hand_distance Max                  0.150553
+evaluation/env_infos/hand_distance Min                  0.0570151
+evaluation/env_infos/final/puck_distance Mean           0.103197
+evaluation/env_infos/final/puck_distance Std            0.0371467
+evaluation/env_infos/final/puck_distance Max            0.150301
+evaluation/env_infos/final/puck_distance Min            0.0316076
+evaluation/env_infos/initial/puck_distance Mean         0.103197
+evaluation/env_infos/initial/puck_distance Std          0.0371466
+evaluation/env_infos/initial/puck_distance Max          0.150302
+evaluation/env_infos/initial/puck_distance Min          0.0316093
+evaluation/env_infos/puck_distance Mean                 0.103197
+evaluation/env_infos/puck_distance Std                  0.0371468
+evaluation/env_infos/puck_distance Max                  0.150302
+evaluation/env_infos/puck_distance Min                  0.0316076
+evaluation/env_infos/final/touch_distance Mean          0.10417
+evaluation/env_infos/final/touch_distance Std           1.67019e-06
+evaluation/env_infos/final/touch_distance Max           0.104174
+evaluation/env_infos/final/touch_distance Min           0.104169
+evaluation/env_infos/initial/touch_distance Mean        0.105356
+evaluation/env_infos/initial/touch_distance Std         1.49746e-06
+evaluation/env_infos/initial/touch_distance Max         0.105359
+evaluation/env_infos/initial/touch_distance Min         0.105354
+evaluation/env_infos/touch_distance Mean                0.104687
+evaluation/env_infos/touch_distance Std                 0.00022508
+evaluation/env_infos/touch_distance Max                 0.105359
+evaluation/env_infos/touch_distance Min                 0.104169
+evaluation/env_infos/final/success Mean                 0
+evaluation/env_infos/final/success Std                  0
+evaluation/env_infos/final/success Max                  0
+evaluation/env_infos/final/success Min                  0
+evaluation/env_infos/initial/success Mean               0
+evaluation/env_infos/initial/success Std                0
+evaluation/env_infos/initial/success Max                0
+evaluation/env_infos/initial/success Min                0
+evaluation/env_infos/success Mean                       0
+evaluation/env_infos/success Std                        0
+evaluation/env_infos/success Max                        0
+evaluation/env_infos/success Min                        0
+evaluation/env_infos/final/image_dist Mean             10.2661
+evaluation/env_infos/final/image_dist Std               1.09998
+evaluation/env_infos/final/image_dist Max              11.8225
+evaluation/env_infos/final/image_dist Min               8.24068
+evaluation/env_infos/initial/image_dist Mean           10.3524
+evaluation/env_infos/initial/image_dist Std             1.01808
+evaluation/env_infos/initial/image_dist Max            11.7681
+evaluation/env_infos/initial/image_dist Min             8.34237
+evaluation/env_infos/image_dist Mean                   10.2837
+evaluation/env_infos/image_dist Std                     1.10935
+evaluation/env_infos/image_dist Max                    11.9466
+evaluation/env_infos/image_dist Min                     8.15692
+evaluation/env_infos/final/image_success Mean          -0.7
+evaluation/env_infos/final/image_success Std            0.458258
+evaluation/env_infos/final/image_success Max            0
+evaluation/env_infos/final/image_success Min           -1
+evaluation/env_infos/initial/image_success Mean        -0.6
+evaluation/env_infos/initial/image_success Std          0.489898
+evaluation/env_infos/initial/image_success Max          0
+evaluation/env_infos/initial/image_success Min         -1
+evaluation/env_infos/image_success Mean                -0.604
+evaluation/env_infos/image_success Std                  0.489064
+evaluation/env_infos/image_success Max                  0
+evaluation/env_infos/image_success Min                 -1
+evaluation/env_infos/final/vae_mdist Mean               4.62442e-09
+evaluation/env_infos/final/vae_mdist Std                2.31343e-09
+evaluation/env_infos/final/vae_mdist Max                8.58299e-09
+evaluation/env_infos/final/vae_mdist Min                1.20156e-09
+evaluation/env_infos/initial/vae_mdist Mean             4.49551e-09
+evaluation/env_infos/initial/vae_mdist Std              2.44349e-09
+evaluation/env_infos/initial/vae_mdist Max              9.31564e-09
+evaluation/env_infos/initial/vae_mdist Min              1.1938e-09
+evaluation/env_infos/vae_mdist Mean                     3.97505e-09
+evaluation/env_infos/vae_mdist Std                      2.05381e-09
+evaluation/env_infos/vae_mdist Max                      9.31564e-09
+evaluation/env_infos/vae_mdist Min                      3.80635e-10
+evaluation/env_infos/final/vae_success Mean             1
+evaluation/env_infos/final/vae_success Std              0
+evaluation/env_infos/final/vae_success Max              1
+evaluation/env_infos/final/vae_success Min              1
+evaluation/env_infos/initial/vae_success Mean           1
+evaluation/env_infos/initial/vae_success Std            0
+evaluation/env_infos/initial/vae_success Max            1
+evaluation/env_infos/initial/vae_success Min            1
+evaluation/env_infos/vae_success Mean                   1
+evaluation/env_infos/vae_success Std                    0
+evaluation/env_infos/vae_success Max                    1
+evaluation/env_infos/vae_success Min                    1
+evaluation/env_infos/final/vae_dist Mean                2.93593e-06
+evaluation/env_infos/final/vae_dist Std                 7.95914e-07
+evaluation/env_infos/final/vae_dist Max                 4.14416e-06
+evaluation/env_infos/final/vae_dist Min                 1.55063e-06
+evaluation/env_infos/initial/vae_dist Mean              2.88122e-06
+evaluation/env_infos/initial/vae_dist Std               8.32833e-07
+evaluation/env_infos/initial/vae_dist Max               4.31695e-06
+evaluation/env_infos/initial/vae_dist Min               1.54566e-06
+evaluation/env_infos/vae_dist Mean                      2.7197e-06
+evaluation/env_infos/vae_dist Std                       7.46326e-07
+evaluation/env_infos/vae_dist Max                       4.31695e-06
+evaluation/env_infos/vae_dist Min                       8.72732e-07
+evaluation/env_infos/final/vae_dist_l1 Mean             5.06582e-06
+evaluation/env_infos/final/vae_dist_l1 Std              1.11883e-06
+evaluation/env_infos/final/vae_dist_l1 Max              7.20573e-06
+evaluation/env_infos/final/vae_dist_l1 Min              3.02216e-06
+evaluation/env_infos/initial/vae_dist_l1 Mean           4.91918e-06
+evaluation/env_infos/initial/vae_dist_l1 Std            1.37731e-06
+evaluation/env_infos/initial/vae_dist_l1 Max            6.62809e-06
+evaluation/env_infos/initial/vae_dist_l1 Min            2.42521e-06
+evaluation/env_infos/vae_dist_l1 Mean                   4.5603e-06
+evaluation/env_infos/vae_dist_l1 Std                    1.1501e-06
+evaluation/env_infos/vae_dist_l1 Max                    7.20573e-06
+evaluation/env_infos/vae_dist_l1 Min                    1.54716e-06
+evaluation/env_infos/final/vae_dist_l2 Mean             2.93593e-06
+evaluation/env_infos/final/vae_dist_l2 Std              7.95914e-07
+evaluation/env_infos/final/vae_dist_l2 Max              4.14416e-06
+evaluation/env_infos/final/vae_dist_l2 Min              1.55063e-06
+evaluation/env_infos/initial/vae_dist_l2 Mean           2.88122e-06
+evaluation/env_infos/initial/vae_dist_l2 Std            8.32833e-07
+evaluation/env_infos/initial/vae_dist_l2 Max            4.31695e-06
+evaluation/env_infos/initial/vae_dist_l2 Min            1.54566e-06
+evaluation/env_infos/vae_dist_l2 Mean                   2.7197e-06
+evaluation/env_infos/vae_dist_l2 Std                    7.46326e-07
+evaluation/env_infos/vae_dist_l2 Max                    4.31695e-06
+evaluation/env_infos/vae_dist_l2 Min                    8.72732e-07
+time/data storing (s)                                   0.0581802
+time/evaluation sampling (s)                           16.2669
+time/exploration sampling (s)                          16.0173
+time/logging (s)                                        0.0105926
+time/saving (s)                                         0.0235393
+time/training (s)                                      15.7028
+time/vae training (s)                                   8.42299
+time/epoch (s)                                         56.5023
+time/total (s)                                         68.5882
+Epoch                                                   0
+-------------------------------------------------  ----------------

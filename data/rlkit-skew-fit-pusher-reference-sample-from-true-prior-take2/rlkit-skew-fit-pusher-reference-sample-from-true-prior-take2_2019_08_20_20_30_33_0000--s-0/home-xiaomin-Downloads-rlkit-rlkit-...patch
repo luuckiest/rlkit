@@ -1,0 +1,96 @@
+diff --git a/examples/skewfit/sawyer_door.py b/examples/skewfit/sawyer_door.py
+index 823120b..d3d40f8 100644
+--- a/examples/skewfit/sawyer_door.py
++++ b/examples/skewfit/sawyer_door.py
+@@ -2,7 +2,7 @@ import os.path as osp
+ import multiworld.envs.mujoco as mwmj
+ import rlkit.util.hyperparameter as hyp
+ from multiworld.envs.mujoco.cameras import sawyer_door_env_camera_v0
+-from rlkit.launchers.launcher_util import run_experiment
++from rlkit.launchers.launcher_util import run_experiment_here
+ import rlkit.torch.vae.vae_schedules as vae_schedules
+ from rlkit.launchers.skewfit_experiments import \
+     skewfit_full_experiment
+@@ -126,11 +126,10 @@ if __name__ == "__main__":
+ 
+     for exp_id, variant in enumerate(sweeper.iterate_hyperparameters()):
+         for _ in range(n_seeds):
+-            run_experiment(
++            run_experiment_here(
+                 skewfit_full_experiment,
+                 exp_prefix=exp_prefix,
+                 mode=mode,
+                 variant=variant,
+                 use_gpu=True,
+           )
+-
+diff --git a/examples/skewfit/sawyer_pickup.py b/examples/skewfit/sawyer_pickup.py
+index 4ae1736..4d921b9 100644
+--- a/examples/skewfit/sawyer_pickup.py
++++ b/examples/skewfit/sawyer_pickup.py
+@@ -8,7 +8,7 @@ import rlkit.torch.vae.vae_schedules as vae_schedules
+ from multiworld.envs.mujoco.cameras import (
+     sawyer_pick_and_place_camera,
+ )
+-from rlkit.launchers.launcher_util import run_experiment
++from rlkit.launchers.launcher_util import run_experiment_here
+ from rlkit.launchers.skewfit_experiments import skewfit_full_experiment
+ from rlkit.torch.vae.conv_vae import imsize48_default_architecture
+ 
+@@ -153,7 +153,7 @@ if __name__ == "__main__":
+ 
+     for exp_id, variant in enumerate(sweeper.iterate_hyperparameters()):
+         for _ in range(n_seeds):
+-            run_experiment(
++            run_experiment_here(
+                 skewfit_full_experiment,
+                 exp_prefix=exp_prefix,
+                 mode=mode,
+diff --git a/examples/skewfit/sawyer_push.py b/examples/skewfit/sawyer_push.py
+index 4f9738b..84854fa 100644
+--- a/examples/skewfit/sawyer_push.py
++++ b/examples/skewfit/sawyer_push.py
+@@ -1,6 +1,6 @@
+ import rlkit.util.hyperparameter as hyp
+ from multiworld.envs.mujoco.cameras import sawyer_init_camera_zoomed_in
+-from rlkit.launchers.launcher_util import run_experiment
++from rlkit.launchers.launcher_util import run_experiment_here
+ import rlkit.torch.vae.vae_schedules as vae_schedules
+ from rlkit.launchers.skewfit_experiments import skewfit_full_experiment
+ from rlkit.torch.vae.conv_vae import imsize48_default_architecture
+@@ -143,7 +143,7 @@ if __name__ == "__main__":
+ 
+     for exp_id, variant in enumerate(sweeper.iterate_hyperparameters()):
+         for _ in range(n_seeds):
+-            run_experiment(
++            run_experiment_here(
+                 skewfit_full_experiment,
+                 exp_prefix=exp_prefix,
+                 mode=mode,
+diff --git a/rlkit/launchers/conf.py b/rlkit/launchers/conf.py
+index c567d90..087e252 100644
+--- a/rlkit/launchers/conf.py
++++ b/rlkit/launchers/conf.py
+@@ -52,7 +52,7 @@ RUN_DOODAD_EXPERIMENT_SCRIPT_PATH = (
+ AWS Settings
+ """
+ # If not set, default will be chosen by doodad
+-# AWS_S3_PATH = 's3://bucket/directory
++AWS_S3_PATH = 's3://bucket/directory'
+ 
+ # The docker image is looked up on dockerhub.com.
+ DOODAD_DOCKER_IMAGE = "TODO"
+diff --git a/rlkit/launchers/launcher_util.py b/rlkit/launchers/launcher_util.py
+index f6a393c..33134f1 100644
+--- a/rlkit/launchers/launcher_util.py
++++ b/rlkit/launchers/launcher_util.py
+@@ -251,7 +251,8 @@ def setup_logger(
+         git_infos = get_git_infos(conf.CODE_DIRS_TO_MOUNT)
+     first_time = log_dir is None
+     if first_time:
+-        log_dir = create_log_dir(exp_prefix, **create_log_dir_kwargs)
++        #log_dir = create_log_dir(exp_prefix, **create_log_dir_kwargs)
++        log_dir = create_log_dir(exp_prefix)
+ 
+     if variant is not None:
+         logger.log("Variant:")

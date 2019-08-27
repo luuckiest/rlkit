@@ -1,0 +1,165 @@
+diff --git a/examples/skewfit/sawyer_door.py b/examples/skewfit/sawyer_door.py
+index 823120b..d3d40f8 100644
+--- a/examples/skewfit/sawyer_door.py
++++ b/examples/skewfit/sawyer_door.py
+@@ -2,7 +2,7 @@ import os.path as osp
+ import multiworld.envs.mujoco as mwmj
+ import rlkit.util.hyperparameter as hyp
+ from multiworld.envs.mujoco.cameras import sawyer_door_env_camera_v0
+-from rlkit.launchers.launcher_util import run_experiment
++from rlkit.launchers.launcher_util import run_experiment_here
+ import rlkit.torch.vae.vae_schedules as vae_schedules
+ from rlkit.launchers.skewfit_experiments import \
+     skewfit_full_experiment
+@@ -126,11 +126,10 @@ if __name__ == "__main__":
+ 
+     for exp_id, variant in enumerate(sweeper.iterate_hyperparameters()):
+         for _ in range(n_seeds):
+-            run_experiment(
++            run_experiment_here(
+                 skewfit_full_experiment,
+                 exp_prefix=exp_prefix,
+                 mode=mode,
+                 variant=variant,
+                 use_gpu=True,
+           )
+-
+diff --git a/examples/skewfit/sawyer_pickup.py b/examples/skewfit/sawyer_pickup.py
+index 4ae1736..33b1530 100644
+--- a/examples/skewfit/sawyer_pickup.py
++++ b/examples/skewfit/sawyer_pickup.py
+@@ -8,7 +8,7 @@ import rlkit.torch.vae.vae_schedules as vae_schedules
+ from multiworld.envs.mujoco.cameras import (
+     sawyer_pick_and_place_camera,
+ )
+-from rlkit.launchers.launcher_util import run_experiment
++from rlkit.launchers.launcher_util import run_experiment_here
+ from rlkit.launchers.skewfit_experiments import skewfit_full_experiment
+ from rlkit.torch.vae.conv_vae import imsize48_default_architecture
+ 
+@@ -80,7 +80,7 @@ if __name__ == "__main__":
+             exploration_goal_sampling_mode='custom_goal_sampler',
+             evaluation_goal_sampling_mode='env',
+             normalize=False,
+-            render=False,
++            render=True,
+             exploration_noise=0.0,
+             exploration_type='ou',
+             training_mode='train',
+@@ -153,7 +153,7 @@ if __name__ == "__main__":
+ 
+     for exp_id, variant in enumerate(sweeper.iterate_hyperparameters()):
+         for _ in range(n_seeds):
+-            run_experiment(
++            run_experiment_here(
+                 skewfit_full_experiment,
+                 exp_prefix=exp_prefix,
+                 mode=mode,
+diff --git a/examples/skewfit/sawyer_push.py b/examples/skewfit/sawyer_push.py
+index 4f9738b..4fc22dc 100644
+--- a/examples/skewfit/sawyer_push.py
++++ b/examples/skewfit/sawyer_push.py
+@@ -1,6 +1,6 @@
+ import rlkit.util.hyperparameter as hyp
+ from multiworld.envs.mujoco.cameras import sawyer_init_camera_zoomed_in
+-from rlkit.launchers.launcher_util import run_experiment
++from rlkit.launchers.launcher_util import run_experiment_here
+ import rlkit.torch.vae.vae_schedules as vae_schedules
+ from rlkit.launchers.skewfit_experiments import skewfit_full_experiment
+ from rlkit.torch.vae.conv_vae import imsize48_default_architecture
+@@ -13,7 +13,8 @@ if __name__ == "__main__":
+         online_vae_exploration=False,
+         imsize=48,
+         init_camera=sawyer_init_camera_zoomed_in,
+-        env_id='SawyerPushNIPSEasy-v0',
++        env_id='SawyerPushNIPS-v0',
++        #env_id='SawyerDoorHookEnv-v0',
+         skewfit_variant=dict(
+             save_video=True,
+             custom_goal_sampler='replay_buffer',
+@@ -69,7 +70,7 @@ if __name__ == "__main__":
+             exploration_goal_sampling_mode='vae_prior',
+             evaluation_goal_sampling_mode='reset_of_env',
+             normalize=False,
+-            render=False,
++            render=True,
+             exploration_noise=0.0,
+             exploration_type='ou',
+             training_mode='train',
+@@ -143,7 +144,7 @@ if __name__ == "__main__":
+ 
+     for exp_id, variant in enumerate(sweeper.iterate_hyperparameters()):
+         for _ in range(n_seeds):
+-            run_experiment(
++            run_experiment_here(
+                 skewfit_full_experiment,
+                 exp_prefix=exp_prefix,
+                 mode=mode,
+@@ -154,7 +155,7 @@ if __name__ == "__main__":
+                     terminate=True,
+                     zone='us-east1-c',
+                     gpu_kwargs=dict(
+-                        gpu_model='nvidia-tesla-k80',
++                        gpu_model='nvidia-gtx-1080',
+                         num_gpu=1,
+                     )
+                 )
+diff --git a/rlkit/launchers/conf.py b/rlkit/launchers/conf.py
+index c567d90..087e252 100644
+--- a/rlkit/launchers/conf.py
++++ b/rlkit/launchers/conf.py
+@@ -52,7 +52,7 @@ RUN_DOODAD_EXPERIMENT_SCRIPT_PATH = (
+ AWS Settings
+ """
+ # If not set, default will be chosen by doodad
+-# AWS_S3_PATH = 's3://bucket/directory
++AWS_S3_PATH = 's3://bucket/directory'
+ 
+ # The docker image is looked up on dockerhub.com.
+ DOODAD_DOCKER_IMAGE = "TODO"
+diff --git a/rlkit/launchers/launcher_util.py b/rlkit/launchers/launcher_util.py
+index f6a393c..33134f1 100644
+--- a/rlkit/launchers/launcher_util.py
++++ b/rlkit/launchers/launcher_util.py
+@@ -251,7 +251,8 @@ def setup_logger(
+         git_infos = get_git_infos(conf.CODE_DIRS_TO_MOUNT)
+     first_time = log_dir is None
+     if first_time:
+-        log_dir = create_log_dir(exp_prefix, **create_log_dir_kwargs)
++        #log_dir = create_log_dir(exp_prefix, **create_log_dir_kwargs)
++        log_dir = create_log_dir(exp_prefix)
+ 
+     if variant is not None:
+         logger.log("Variant:")
+diff --git a/rlkit/launchers/skewfit_experiments.py b/rlkit/launchers/skewfit_experiments.py
+index 3d49379..b095caf 100644
+--- a/rlkit/launchers/skewfit_experiments.py
++++ b/rlkit/launchers/skewfit_experiments.py
+@@ -263,6 +263,7 @@ def generate_vae_dataset(variant):
+                             obs, _, _, _ = env.step(action)
+                 elif oracle_dataset_using_set_to_goal:
+                     print(i)
++                    #print('th step')
+                     goal = env.sample_goal()
+                     env.set_to_goal(goal)
+                     obs = env._get_obs()
+@@ -281,11 +282,15 @@ def generate_vae_dataset(variant):
+                     for _ in range(n_random_steps):
+                         obs = env.step(env.action_space.sample())[0]
+                 img = obs['image_observation']
+-                dataset[i, :] = unormalize_image(img)
+-                if show:
++                if True:
+                     img = img.reshape(3, imsize, imsize).transpose()
+-                    img = img[::-1, :, ::-1]
+-                    cv2.imshow('img', img)
++                    # img = img[::-1, :, ::-1]
++                    # cv2.imshow('img', img)
++                    # cv2.waitKey(1)
++                    img_1 = obs['image_observation']
++                    #dataset[i, :] = unormalize_image(img)
++                    img_1 = img_1.reshape(3, imsize, imsize).transpose()
++                    cv2.imshow('img1', img)
+                     cv2.waitKey(1)
+                     # radius = input('waiting...')
+             print("done making training data", filename, time.time() - now)

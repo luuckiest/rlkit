@@ -344,6 +344,7 @@ class VAEWrappedEnv(ProxyEnv, MultitaskEnv):
             reconstruction = self._reconstruct_img(obs['image_observation']).transpose()
             cv2.imshow('env_reconstruction', reconstruction)
             cv2.waitKey(1)
+
             init_img = self._initial_obs['image_observation'].reshape(
                 self.input_channels,
                 self.imsize,

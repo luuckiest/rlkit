@@ -31,6 +31,7 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
             evaluation_data_collector: DataCollector,
             replay_buffer: ReplayBuffer,
     ):
+        print("online_rl_algorithm")
         self.trainer = trainer
         self.expl_env = exploration_env
         self.eval_env = evaluation_env

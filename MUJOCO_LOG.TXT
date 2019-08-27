@@ -1,0 +1,114 @@
+Wed Aug 14 20:38:13 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 15 12:58:11 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 15 13:02:48 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 15 13:03:25 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 15 13:04:52 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 15 13:05:08 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 15 13:36:35 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 15 13:41:56 2019
+ERROR: Shadow framebuffer is not complete, error 0x8cd7
+
+Thu Aug 15 13:46:55 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 15 13:47:55 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 15 13:49:40 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 15 13:51:48 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 15 13:52:13 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Tue Aug 20 13:33:31 2019
+ERROR: Shadow framebuffer is not complete, error 0x8cd7
+
+Tue Aug 20 13:33:39 2019
+ERROR: Shadow framebuffer is not complete, error 0x8cd7
+
+Tue Aug 20 13:33:54 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Tue Aug 20 13:34:09 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Tue Aug 20 13:36:57 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Tue Aug 20 13:38:17 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Tue Aug 20 13:38:31 2019
+ERROR: Shadow framebuffer is not complete, error 0x8cd7
+
+Tue Aug 20 20:11:42 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Tue Aug 20 20:12:04 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Tue Aug 20 20:29:46 2019
+ERROR: Shadow framebuffer is not complete, error 0x8cd7
+
+Tue Aug 20 20:30:19 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Tue Aug 20 20:30:57 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Tue Aug 20 20:31:08 2019
+ERROR: Shadow framebuffer is not complete, error 0x8cd7
+
+Tue Aug 20 20:31:58 2019
+ERROR: Shadow framebuffer is not complete, error 0x8cd7
+
+Tue Aug 20 21:12:30 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Wed Aug 21 20:23:47 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 22 13:29:41 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 22 14:20:53 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 22 19:18:16 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 22 19:18:36 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 22 19:18:41 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 22 19:19:35 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 22 19:19:59 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 22 19:24:40 2019
+ERROR: GLEW initalization error: Missing GL version
+
+Thu Aug 22 19:29:21 2019
+ERROR: GLEW initalization error: Missing GL version
+

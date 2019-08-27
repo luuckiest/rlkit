@@ -23,6 +23,7 @@ def skewfit_full_experiment(variant):
     full_experiment_variant_preprocess(variant)
     train_vae_and_update_variant(variant)
     skewfit_experiment(variant['skewfit_variant'])
+    getdata(variant)
 
 
 def full_experiment_variant_preprocess(variant):
@@ -68,6 +69,7 @@ def train_vae_and_update_variant(variant):
         )
         vae, vae_train_data, vae_test_data = train_vae(train_vae_variant,
                                                        return_data=True)
+        print(vae, vae_train_data, vae_test_data )
         if skewfit_variant.get('save_vae_data', False):
             skewfit_variant['vae_train_data'] = vae_train_data
             skewfit_variant['vae_test_data'] = vae_test_data
@@ -138,6 +140,8 @@ def train_vae(variant, return_data=False):
     save_period = variant['save_period']
     dump_skew_debug_plots = variant.get('dump_skew_debug_plots', False)
     for epoch in range(variant['num_epochs']):
+        print('epoch')
+        print(epoch)
         should_save_imgs = (epoch % save_period == 0)
         t.train_epoch(epoch)
         t.test_epoch(
@@ -243,8 +247,10 @@ def generate_vae_dataset(variant):
                 policy = OUStrategy(env.action_space)
             dataset = np.zeros((N, imsize * imsize * num_channels),
                                dtype=np.uint8)
+            print(env)
             for i in range(N):
                 if random_and_oracle_policy_data:
+                    print('random_and_oracle_policy_data')
                     num_random_steps = int(
                         N * random_and_oracle_policy_data_split)
                     if i < num_random_steps:
@@ -266,6 +272,7 @@ def generate_vae_dataset(variant):
                     goal = env.sample_goal()
                     env.set_to_goal(goal)
                     obs = env._get_obs()
+                    print('oracle_dataset_using_set_to_goal')
                 elif random_rollout_data:
                     if i % n_random_steps == 0:
                         g = dict(
@@ -276,7 +283,9 @@ def generate_vae_dataset(variant):
                     u = policy.get_action_from_raw_action(
                         env.action_space.sample())
                     obs = env.step(u)[0]
+                    print('random_rollout_data')
                 else:
+                    print('else')
                     env.reset()
                     for _ in range(n_random_steps):
                         obs = env.step(env.action_space.sample())[0]
@@ -559,10 +568,12 @@ def skewfit_experiment(variant):
 
     if variant['custom_goal_sampler'] == 'replay_buffer':
         env.custom_goal_sampler = replay_buffer.sample_buffer_goals
-
+    print('running vae_training')
     algorithm.to(ptu.device)
     vae.to(ptu.device)
+    print('done running vae_training')
     algorithm.train()
+
 
 
 def get_video_save_func(rollout_function, env, policy, variant):
@@ -612,3 +623,150 @@ def get_video_save_func(rollout_function, env, policy, variant):
                     kwargs=dump_video_kwargs
                 )
     return save_video
+
+def getdata(variant):
+    skewfit_variant = variant['skewfit_variant']
+    print('-------------------------------')
+    skewfit_preprocess_variant(skewfit_variant)
+    skewfit_variant['render'] = False
+    vae_environment = get_envs(skewfit_variant)
+    print('done loading vae_env')
+
+    env_class = variant.get('env_class', None)
+    env_kwargs = variant.get('env_kwargs', None)
+    env_id = variant.get('env_id', None)
+    N = variant.get('N', 10000)
+    test_p = variant.get('test_p', 0.9)
+    use_cached = variant.get('use_cached', True)
+    imsize = variant.get('imsize', 84)
+    num_channels = variant.get('num_channels', 3)
+    show = variant.get('show', False)
+    init_camera = variant.get('init_camera', None)
+    dataset_path = variant.get('dataset_path', None)
+    oracle_dataset_using_set_to_goal = variant.get(
+        'oracle_dataset_using_set_to_goal', False)
+    random_rollout_data = variant.get('random_rollout_data', False)
+    random_and_oracle_policy_data = variant.get('random_and_oracle_policy_data',
+                                                False)
+    random_and_oracle_policy_data_split = variant.get(
+        'random_and_oracle_policy_data_split', 0)
+    policy_file = variant.get('policy_file', None)
+    n_random_steps = variant.get('n_random_steps', 100)
+    vae_dataset_specific_env_kwargs = variant.get(
+        'vae_dataset_specific_env_kwargs', None)
+    save_file_prefix = variant.get('save_file_prefix', None)
+    non_presampled_goal_img_is_garbage = variant.get(
+        'non_presampled_goal_img_is_garbage', None)
+    tag = variant.get('tag', '')
+    from multiworld.core.image_env import ImageEnv, unormalize_image
+    import rlkit.torch.pytorch_util as ptu
+    info = {}
+    if dataset_path is not None:
+        dataset = load_local_or_remote_file(dataset_path)
+        N = dataset.shape[0]
+    else:
+        if env_kwargs is None:
+            env_kwargs = {}
+        if save_file_prefix is None:
+            save_file_prefix = env_id
+        if save_file_prefix is None:
+            save_file_prefix = env_class.__name__
+        filename = "/tmp/{}_N{}_{}_imsize{}_random_oracle_split_{}{}.npy".format(
+            save_file_prefix,
+            str(N),
+            init_camera.__name__ if init_camera else '',
+            imsize,
+            random_and_oracle_policy_data_split,
+            tag,
+        )
+        if True:
+            now = time.time()
+
+            if env_id is not None:
+                import gym
+                import multiworld
+                multiworld.register_all_envs()
+                env = gym.make(env_id)
+            else:
+                if vae_dataset_specific_env_kwargs is None:
+                    vae_dataset_specific_env_kwargs = {}
+                for key, val in env_kwargs.items():
+                    if key not in vae_dataset_specific_env_kwargs:
+                        vae_dataset_specific_env_kwargs[key] = val
+                env = env_class(**vae_dataset_specific_env_kwargs)
+            if not isinstance(env, ImageEnv):
+                env = ImageEnv(
+                    env,
+                    imsize,
+                    init_camera=init_camera,
+                    transpose=True,
+                    normalize=True,
+                    non_presampled_goal_img_is_garbage=non_presampled_goal_img_is_garbage,
+                )
+            else:
+                imsize = env.imsize
+                env.non_presampled_goal_img_is_garbage = non_presampled_goal_img_is_garbage
+            env.reset()
+            info['env'] = env
+            if random_and_oracle_policy_data:
+                policy_file = load_local_or_remote_file(policy_file)
+                policy = policy_file['policy']
+                policy.to(ptu.device)
+            if random_rollout_data:
+                from rlkit.exploration_strategies.ou_strategy import OUStrategy
+                policy = OUStrategy(env.action_space)
+            dataset = np.zeros((N, imsize * imsize * num_channels),
+                               dtype=np.uint8)
+            for i in range(10000):
+                NP = []
+                if True:
+                    print(i)
+                    #print('th step')
+                    goal = env.sample_goal()
+                    print(goal)
+                    env.set_to_goal(goal)
+                    obs = env._get_obs()
+                    #img = img.reshape(3, imsize, imsize).transpose()
+                    # img = img[::-1, :, ::-1]
+                    # cv2.imshow('img', img)
+                    # cv2.waitKey(1)
+                    img_1 = obs['image_observation']
+                    print(img_1)
+                    img_1 = img_1.reshape(3, imsize, imsize).transpose()
+                    if i % 3 ==0:
+                        cv2.imshow('img1', img_1)
+                        cv2.waitKey(1)
+                    img_1_reconstruct = vae_environment._reconstruct_img(obs['image_observation']).transpose()
+                    print(img_1_reconstruct)
+                    NP.append(img_1_reconstruct)
+                    #dataset[i, :] = unormalize_image(img)
+                    # img_1 = img_1.reshape(3, imsize, imsize).transpose()
+                    if i % 3 ==0:
+                        cv2.imshow('img1_reconstruction', img_1_reconstruct)
+                        cv2.waitKey(1)
+                    env.reset()
+                    instr = env.generate_new_state(goal)
+                    if i % 3 ==0:
+                        print(instr)
+                    obs = env._get_obs()
+                    # obs = env._get_obs()
+                    img_2 = obs['image_observation']
+                    img_2 = img_2.reshape(3, imsize, imsize).transpose()
+                    if i % 3 ==0:
+                        cv2.imshow('img2', img_2)
+                        cv2.waitKey(1)
+                    img_2_reconstruct = vae_environment._reconstruct_img(obs['image_observation']).transpose()
+                    NP.append(img_2_reconstruct)
+                    NP.append(instr)
+                    # img_2 = img_2.reshape(3, imsize, imsize).transpose()
+                    if i % 3 ==0:
+                        cv2.imshow('img2_reconstruct', img_2_reconstruct)
+                        cv2.waitKey(1)
+                    NP = np.array(NP)
+                    print(NP)
+                    idx = str(i)
+                    name = "/home/xiaomin/Downloads/IFIG_DATA_VAE_300_10000/" + idx +".npy"
+                    np.save(open(name, 'wb'), NP)
+                    # radius = input('waiting...')
+            print("done making training data", filename, time.time() - now)
+            np.save(filename, dataset)

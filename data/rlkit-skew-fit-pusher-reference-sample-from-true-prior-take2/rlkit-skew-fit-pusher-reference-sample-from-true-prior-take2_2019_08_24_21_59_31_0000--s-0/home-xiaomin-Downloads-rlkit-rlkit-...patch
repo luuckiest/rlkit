@@ -1,0 +1,398 @@
+diff --git a/examples/skewfit/sawyer_door.py b/examples/skewfit/sawyer_door.py
+index 823120b..d3d40f8 100644
+--- a/examples/skewfit/sawyer_door.py
++++ b/examples/skewfit/sawyer_door.py
+@@ -2,7 +2,7 @@ import os.path as osp
+ import multiworld.envs.mujoco as mwmj
+ import rlkit.util.hyperparameter as hyp
+ from multiworld.envs.mujoco.cameras import sawyer_door_env_camera_v0
+-from rlkit.launchers.launcher_util import run_experiment
++from rlkit.launchers.launcher_util import run_experiment_here
+ import rlkit.torch.vae.vae_schedules as vae_schedules
+ from rlkit.launchers.skewfit_experiments import \
+     skewfit_full_experiment
+@@ -126,11 +126,10 @@ if __name__ == "__main__":
+ 
+     for exp_id, variant in enumerate(sweeper.iterate_hyperparameters()):
+         for _ in range(n_seeds):
+-            run_experiment(
++            run_experiment_here(
+                 skewfit_full_experiment,
+                 exp_prefix=exp_prefix,
+                 mode=mode,
+                 variant=variant,
+                 use_gpu=True,
+           )
+-
+diff --git a/examples/skewfit/sawyer_pickup.py b/examples/skewfit/sawyer_pickup.py
+index 4ae1736..33b1530 100644
+--- a/examples/skewfit/sawyer_pickup.py
++++ b/examples/skewfit/sawyer_pickup.py
+@@ -8,7 +8,7 @@ import rlkit.torch.vae.vae_schedules as vae_schedules
+ from multiworld.envs.mujoco.cameras import (
+     sawyer_pick_and_place_camera,
+ )
+-from rlkit.launchers.launcher_util import run_experiment
++from rlkit.launchers.launcher_util import run_experiment_here
+ from rlkit.launchers.skewfit_experiments import skewfit_full_experiment
+ from rlkit.torch.vae.conv_vae import imsize48_default_architecture
+ 
+@@ -80,7 +80,7 @@ if __name__ == "__main__":
+             exploration_goal_sampling_mode='custom_goal_sampler',
+             evaluation_goal_sampling_mode='env',
+             normalize=False,
+-            render=False,
++            render=True,
+             exploration_noise=0.0,
+             exploration_type='ou',
+             training_mode='train',
+@@ -153,7 +153,7 @@ if __name__ == "__main__":
+ 
+     for exp_id, variant in enumerate(sweeper.iterate_hyperparameters()):
+         for _ in range(n_seeds):
+-            run_experiment(
++            run_experiment_here(
+                 skewfit_full_experiment,
+                 exp_prefix=exp_prefix,
+                 mode=mode,
+diff --git a/examples/skewfit/sawyer_push.py b/examples/skewfit/sawyer_push.py
+index 4f9738b..5f3d565 100644
+--- a/examples/skewfit/sawyer_push.py
++++ b/examples/skewfit/sawyer_push.py
+@@ -1,6 +1,6 @@
+ import rlkit.util.hyperparameter as hyp
+ from multiworld.envs.mujoco.cameras import sawyer_init_camera_zoomed_in
+-from rlkit.launchers.launcher_util import run_experiment
++from rlkit.launchers.launcher_util import run_experiment_here
+ import rlkit.torch.vae.vae_schedules as vae_schedules
+ from rlkit.launchers.skewfit_experiments import skewfit_full_experiment
+ from rlkit.torch.vae.conv_vae import imsize48_default_architecture
+@@ -13,7 +13,8 @@ if __name__ == "__main__":
+         online_vae_exploration=False,
+         imsize=48,
+         init_camera=sawyer_init_camera_zoomed_in,
+-        env_id='SawyerPushNIPSEasy-v0',
++        env_id='SawyerPushNIPS-v0',
++        # env_id='SawyerDoorHookEnv-v0',
+         skewfit_variant=dict(
+             save_video=True,
+             custom_goal_sampler='replay_buffer',
+@@ -34,11 +35,16 @@ if __name__ == "__main__":
+             max_path_length=50,
+             algo_kwargs=dict(
+                 batch_size=1024,
+-                num_epochs=1000,
++                # num_epochs=1000,
++                # num_eval_steps_per_epoch=500,
++                # num_expl_steps_per_train_loop=500,
++                # num_trains_per_train_loop=1000,
++                # min_num_steps_before_training=10000,
++                num_epochs=1,
+                 num_eval_steps_per_epoch=500,
+                 num_expl_steps_per_train_loop=500,
+                 num_trains_per_train_loop=1000,
+-                min_num_steps_before_training=10000,
++                min_num_steps_before_training=100,
+                 vae_training_schedule=vae_schedules.custom_schedule_2,
+                 oracle_data=False,
+                 vae_save_period=50,
+@@ -69,7 +75,7 @@ if __name__ == "__main__":
+             exploration_goal_sampling_mode='vae_prior',
+             evaluation_goal_sampling_mode='reset_of_env',
+             normalize=False,
+-            render=False,
++            render=True,
+             exploration_noise=0.0,
+             exploration_type='ou',
+             training_mode='train',
+@@ -143,7 +149,7 @@ if __name__ == "__main__":
+ 
+     for exp_id, variant in enumerate(sweeper.iterate_hyperparameters()):
+         for _ in range(n_seeds):
+-            run_experiment(
++            run_experiment_here(
+                 skewfit_full_experiment,
+                 exp_prefix=exp_prefix,
+                 mode=mode,
+@@ -154,7 +160,7 @@ if __name__ == "__main__":
+                     terminate=True,
+                     zone='us-east1-c',
+                     gpu_kwargs=dict(
+-                        gpu_model='nvidia-tesla-k80',
++                        gpu_model='nvidia-gtx-1080',
+                         num_gpu=1,
+                     )
+                 )
+diff --git a/rlkit/core/rl_algorithm.py b/rlkit/core/rl_algorithm.py
+index 284ef46..d23c449 100644
+--- a/rlkit/core/rl_algorithm.py
++++ b/rlkit/core/rl_algorithm.py
+@@ -31,6 +31,7 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
+             evaluation_data_collector: DataCollector,
+             replay_buffer: ReplayBuffer,
+     ):
++        print("online_rl_algorithm")
+         self.trainer = trainer
+         self.expl_env = exploration_env
+         self.eval_env = evaluation_env
+diff --git a/rlkit/envs/vae_wrapper.py b/rlkit/envs/vae_wrapper.py
+index 60e7df4..3b47ec7 100644
+--- a/rlkit/envs/vae_wrapper.py
++++ b/rlkit/envs/vae_wrapper.py
+@@ -344,6 +344,7 @@ class VAEWrappedEnv(ProxyEnv, MultitaskEnv):
+             reconstruction = self._reconstruct_img(obs['image_observation']).transpose()
+             cv2.imshow('env_reconstruction', reconstruction)
+             cv2.waitKey(1)
++
+             init_img = self._initial_obs['image_observation'].reshape(
+                 self.input_channels,
+                 self.imsize,
+diff --git a/rlkit/launchers/conf.py b/rlkit/launchers/conf.py
+index c567d90..087e252 100644
+--- a/rlkit/launchers/conf.py
++++ b/rlkit/launchers/conf.py
+@@ -52,7 +52,7 @@ RUN_DOODAD_EXPERIMENT_SCRIPT_PATH = (
+ AWS Settings
+ """
+ # If not set, default will be chosen by doodad
+-# AWS_S3_PATH = 's3://bucket/directory
++AWS_S3_PATH = 's3://bucket/directory'
+ 
+ # The docker image is looked up on dockerhub.com.
+ DOODAD_DOCKER_IMAGE = "TODO"
+diff --git a/rlkit/launchers/launcher_util.py b/rlkit/launchers/launcher_util.py
+index f6a393c..33134f1 100644
+--- a/rlkit/launchers/launcher_util.py
++++ b/rlkit/launchers/launcher_util.py
+@@ -251,7 +251,8 @@ def setup_logger(
+         git_infos = get_git_infos(conf.CODE_DIRS_TO_MOUNT)
+     first_time = log_dir is None
+     if first_time:
+-        log_dir = create_log_dir(exp_prefix, **create_log_dir_kwargs)
++        #log_dir = create_log_dir(exp_prefix, **create_log_dir_kwargs)
++        log_dir = create_log_dir(exp_prefix)
+ 
+     if variant is not None:
+         logger.log("Variant:")
+diff --git a/rlkit/launchers/skewfit_experiments.py b/rlkit/launchers/skewfit_experiments.py
+index 3d49379..eec253c 100644
+--- a/rlkit/launchers/skewfit_experiments.py
++++ b/rlkit/launchers/skewfit_experiments.py
+@@ -23,6 +23,7 @@ def skewfit_full_experiment(variant):
+     full_experiment_variant_preprocess(variant)
+     train_vae_and_update_variant(variant)
+     skewfit_experiment(variant['skewfit_variant'])
++    getdata(variant)
+ 
+ 
+ def full_experiment_variant_preprocess(variant):
+@@ -68,6 +69,7 @@ def train_vae_and_update_variant(variant):
+         )
+         vae, vae_train_data, vae_test_data = train_vae(train_vae_variant,
+                                                        return_data=True)
++        print(vae, vae_train_data, vae_test_data )
+         if skewfit_variant.get('save_vae_data', False):
+             skewfit_variant['vae_train_data'] = vae_train_data
+             skewfit_variant['vae_test_data'] = vae_test_data
+@@ -138,6 +140,8 @@ def train_vae(variant, return_data=False):
+     save_period = variant['save_period']
+     dump_skew_debug_plots = variant.get('dump_skew_debug_plots', False)
+     for epoch in range(variant['num_epochs']):
++        print('epoch')
++        print(epoch)
+         should_save_imgs = (epoch % save_period == 0)
+         t.train_epoch(epoch)
+         t.test_epoch(
+@@ -559,12 +563,14 @@ def skewfit_experiment(variant):
+ 
+     if variant['custom_goal_sampler'] == 'replay_buffer':
+         env.custom_goal_sampler = replay_buffer.sample_buffer_goals
+-
++    print('running vae_training')
+     algorithm.to(ptu.device)
+     vae.to(ptu.device)
++    print('done running vae_training')
+     algorithm.train()
+ 
+ 
++
+ def get_video_save_func(rollout_function, env, policy, variant):
+     logdir = logger.get_snapshot_dir()
+     save_period = variant.get('save_video_period', 50)
+@@ -612,3 +618,148 @@ def get_video_save_func(rollout_function, env, policy, variant):
+                     kwargs=dump_video_kwargs
+                 )
+     return save_video
++
++def getdata(variant):
++    skewfit_variant = variant['skewfit_variant']
++    print('-------------------------------')
++    skewfit_preprocess_variant(skewfit_variant)
++    skewfit_variant['render'] = False
++    vae_environment = get_envs(skewfit_variant)
++    print('done loading vae_env')
++
++    env_class = variant.get('env_class', None)
++    env_kwargs = variant.get('env_kwargs', None)
++    env_id = variant.get('env_id', None)
++    N = variant.get('N', 10000)
++    test_p = variant.get('test_p', 0.9)
++    use_cached = variant.get('use_cached', True)
++    imsize = variant.get('imsize', 84)
++    num_channels = variant.get('num_channels', 3)
++    show = variant.get('show', False)
++    init_camera = variant.get('init_camera', None)
++    dataset_path = variant.get('dataset_path', None)
++    oracle_dataset_using_set_to_goal = variant.get(
++        'oracle_dataset_using_set_to_goal', False)
++    random_rollout_data = variant.get('random_rollout_data', False)
++    random_and_oracle_policy_data = variant.get('random_and_oracle_policy_data',
++                                                False)
++    random_and_oracle_policy_data_split = variant.get(
++        'random_and_oracle_policy_data_split', 0)
++    policy_file = variant.get('policy_file', None)
++    n_random_steps = variant.get('n_random_steps', 100)
++    vae_dataset_specific_env_kwargs = variant.get(
++        'vae_dataset_specific_env_kwargs', None)
++    save_file_prefix = variant.get('save_file_prefix', None)
++    non_presampled_goal_img_is_garbage = variant.get(
++        'non_presampled_goal_img_is_garbage', None)
++    tag = variant.get('tag', '')
++    from multiworld.core.image_env import ImageEnv, unormalize_image
++    import rlkit.torch.pytorch_util as ptu
++    info = {}
++    if dataset_path is not None:
++        dataset = load_local_or_remote_file(dataset_path)
++        N = dataset.shape[0]
++    else:
++        if env_kwargs is None:
++            env_kwargs = {}
++        if save_file_prefix is None:
++            save_file_prefix = env_id
++        if save_file_prefix is None:
++            save_file_prefix = env_class.__name__
++        filename = "/tmp/{}_N{}_{}_imsize{}_random_oracle_split_{}{}.npy".format(
++            save_file_prefix,
++            str(N),
++            init_camera.__name__ if init_camera else '',
++            imsize,
++            random_and_oracle_policy_data_split,
++            tag,
++        )
++        if True:
++            now = time.time()
++
++            if env_id is not None:
++                import gym
++                import multiworld
++                multiworld.register_all_envs()
++                env = gym.make(env_id)
++            else:
++                if vae_dataset_specific_env_kwargs is None:
++                    vae_dataset_specific_env_kwargs = {}
++                for key, val in env_kwargs.items():
++                    if key not in vae_dataset_specific_env_kwargs:
++                        vae_dataset_specific_env_kwargs[key] = val
++                env = env_class(**vae_dataset_specific_env_kwargs)
++            if not isinstance(env, ImageEnv):
++                env = ImageEnv(
++                    env,
++                    imsize,
++                    init_camera=init_camera,
++                    transpose=True,
++                    normalize=True,
++                    non_presampled_goal_img_is_garbage=non_presampled_goal_img_is_garbage,
++                )
++            else:
++                imsize = env.imsize
++                env.non_presampled_goal_img_is_garbage = non_presampled_goal_img_is_garbage
++            env.reset()
++            info['env'] = env
++            if random_and_oracle_policy_data:
++                policy_file = load_local_or_remote_file(policy_file)
++                policy = policy_file['policy']
++                policy.to(ptu.device)
++            if random_rollout_data:
++                from rlkit.exploration_strategies.ou_strategy import OUStrategy
++                policy = OUStrategy(env.action_space)
++            dataset = np.zeros((N, imsize * imsize * num_channels),
++                               dtype=np.uint8)
++            for i in range(10000):
++                NP = []
++                if True:
++                    print(i)
++                    #print('th step')
++                    goal = env.sample_goal()
++                    print(goal)
++                    env.set_to_goal(goal)
++                    obs = env._get_obs()
++                    #img = img.reshape(3, imsize, imsize).transpose()
++                    # img = img[::-1, :, ::-1]
++                    # cv2.imshow('img', img)
++                    # cv2.waitKey(1)
++                    img_1 = obs['image_observation']
++                    img_1 = img_1.reshape(3, imsize, imsize).transpose()
++                    if i % 3 ==0:
++                        cv2.imshow('img1', img_1)
++                        cv2.waitKey(1)
++                    img_1 = vae_environment._reconstruct_img(obs['image_observation']).transpose()
++                    NP.append(img_1)
++                    #dataset[i, :] = unormalize_image(img)
++                    # img_1 = img_1.reshape(3, imsize, imsize).transpose()
++                    if i % 3 ==0:
++                        cv2.imshow('img1_reconstruction', img_1)
++                        cv2.waitKey(1)
++                    env.reset()
++                    instr = env.generate_new_state(goal)
++                    if i % 3 ==0:
++                        print(instr)
++                    obs = env._get_obs()
++                    # obs = env._get_obs()
++                    img_2 = obs['image_observation']
++                    img_2 = img_2.reshape(3, imsize, imsize).transpose()
++                    if i % 3 ==0:
++                        cv2.imshow('img2', img_2)
++                        cv2.waitKey(1)
++                    img_2 = vae_environment._reconstruct_img(obs['image_observation']).transpose()
++                    NP.append(img_2)
++                    NP.append(instr)
++                    # img_2 = img_2.reshape(3, imsize, imsize).transpose()
++                    if i % 3 ==0:
++                        cv2.imshow('img2_reconstruct', img_2)
++                        cv2.waitKey(1)
++                    NP = np.array(NP)
++                    print(NP)
++                    idx = str(i)
++                    name = "/home/xiaomin/Downloads/IFIG_DATA_1/" + idx +".npy"
++                    np.save(open(name, 'wb'), NP)
++                    # radius = input('waiting...')
++            print("done making training data", filename, time.time() - now)
++            np.save(filename, dataset)
+diff --git a/rlkit/torch/skewfit/online_vae_algorithm.py b/rlkit/torch/skewfit/online_vae_algorithm.py
+index ce0b484..22948d8 100644
+--- a/rlkit/torch/skewfit/online_vae_algorithm.py
++++ b/rlkit/torch/skewfit/online_vae_algorithm.py
+@@ -47,6 +47,7 @@ class OnlineVaeAlgorithm(TorchBatchRLAlgorithm):
+ 
+     def _train(self):
+         super()._train()
++        print("_train")
+         self._cleanup()
+ 
+     def _end_epoch(self, epoch):
+@@ -150,6 +151,7 @@ class OnlineVaeAlgorithm(TorchBatchRLAlgorithm):
+ 
+ def _train_vae(vae_trainer, replay_buffer, epoch, batches=50, oracle_data=False):
+     batch_sampler = replay_buffer.random_vae_training_data
++    print("_train_vae")
+     if oracle_data:
+         batch_sampler = None
+     vae_trainer.train_epoch(
+@@ -162,6 +164,7 @@ def _train_vae(vae_trainer, replay_buffer, epoch, batches=50, oracle_data=False)
+ 
+ def _test_vae(vae_trainer, epoch, replay_buffer, vae_save_period=1, uniform_dataset=None):
+     save_imgs = epoch % vae_save_period == 0
++    print("test_vae")
+     log_fit_skew_stats = replay_buffer._prioritize_vae_samples and uniform_dataset is not None
+     if uniform_dataset is not None:
+         replay_buffer.log_loss_under_uniform(uniform_dataset, vae_trainer.batch_size, rl_logger=vae_trainer.vae_logger_stats_for_rl)

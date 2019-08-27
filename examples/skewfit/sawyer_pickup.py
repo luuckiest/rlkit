@@ -8,7 +8,7 @@ import rlkit.torch.vae.vae_schedules as vae_schedules
 from multiworld.envs.mujoco.cameras import (
     sawyer_pick_and_place_camera,
 )
-from rlkit.launchers.launcher_util import run_experiment
+from rlkit.launchers.launcher_util import run_experiment_here
 from rlkit.launchers.skewfit_experiments import skewfit_full_experiment
 from rlkit.torch.vae.conv_vae import imsize48_default_architecture
 
@@ -80,7 +80,7 @@ if __name__ == "__main__":
             exploration_goal_sampling_mode='custom_goal_sampler',
             evaluation_goal_sampling_mode='env',
             normalize=False,
-            render=False,
+            render=True,
             exploration_noise=0.0,
             exploration_type='ou',
             training_mode='train',
@@ -153,7 +153,7 @@ if __name__ == "__main__":
 
     for exp_id, variant in enumerate(sweeper.iterate_hyperparameters()):
         for _ in range(n_seeds):
-            run_experiment(
+            run_experiment_here(
                 skewfit_full_experiment,
                 exp_prefix=exp_prefix,
                 mode=mode,

@@ -1,6 +1,6 @@
 import rlkit.util.hyperparameter as hyp
 from multiworld.envs.mujoco.cameras import sawyer_init_camera_zoomed_in
-from rlkit.launchers.launcher_util import run_experiment
+from rlkit.launchers.launcher_util import run_experiment_here
 import rlkit.torch.vae.vae_schedules as vae_schedules
 from rlkit.launchers.skewfit_experiments import skewfit_full_experiment
 from rlkit.torch.vae.conv_vae import imsize48_default_architecture
@@ -13,7 +13,8 @@ if __name__ == "__main__":
         online_vae_exploration=False,
         imsize=48,
         init_camera=sawyer_init_camera_zoomed_in,
-        env_id='SawyerPushNIPSEasy-v0',
+        env_id='SawyerPushNIPS-v0',
+        # env_id='SawyerDoorHookEnv-v0',
         skewfit_variant=dict(
             save_video=True,
             custom_goal_sampler='replay_buffer',
@@ -34,11 +35,16 @@ if __name__ == "__main__":
             max_path_length=50,
             algo_kwargs=dict(
                 batch_size=1024,
-                num_epochs=1000,
+                # num_epochs=1000,
+                # num_eval_steps_per_epoch=500,
+                # num_expl_steps_per_train_loop=500,
+                # num_trains_per_train_loop=1000,
+                # min_num_steps_before_training=10000,
+                num_epochs=1,
                 num_eval_steps_per_epoch=500,
                 num_expl_steps_per_train_loop=500,
                 num_trains_per_train_loop=1000,
-                min_num_steps_before_training=10000,
+                min_num_steps_before_training=100,
                 vae_training_schedule=vae_schedules.custom_schedule_2,
                 oracle_data=False,
                 vae_save_period=50,
@@ -69,7 +75,7 @@ if __name__ == "__main__":
             exploration_goal_sampling_mode='vae_prior',
             evaluation_goal_sampling_mode='reset_of_env',
             normalize=False,
-            render=False,
+            render=True,
             exploration_noise=0.0,
             exploration_type='ou',
             training_mode='train',
@@ -143,7 +149,7 @@ if __name__ == "__main__":
 
     for exp_id, variant in enumerate(sweeper.iterate_hyperparameters()):
         for _ in range(n_seeds):
-            run_experiment(
+            run_experiment_here(
                 skewfit_full_experiment,
                 exp_prefix=exp_prefix,
                 mode=mode,
@@ -154,7 +160,7 @@ if __name__ == "__main__":
                     terminate=True,
                     zone='us-east1-c',
                     gpu_kwargs=dict(
-                        gpu_model='nvidia-tesla-k80',
+                        gpu_model='nvidia-gtx-1080',
                         num_gpu=1,
                     )
                 )
