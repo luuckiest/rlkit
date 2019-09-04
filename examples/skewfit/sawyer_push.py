@@ -7,6 +7,8 @@ from rlkit.torch.vae.conv_vae import imsize48_default_architecture
 
 
 if __name__ == "__main__":
+
+    print("dHELLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOO")
     variant = dict(
         algorithm='Skew-Fit',
         double_algo=False,
@@ -40,11 +42,11 @@ if __name__ == "__main__":
                 # num_expl_steps_per_train_loop=500,
                 # num_trains_per_train_loop=1000,
                 # min_num_steps_before_training=10000,
-                num_epochs=1,
+                num_epochs=1000,
                 num_eval_steps_per_epoch=500,
                 num_expl_steps_per_train_loop=500,
                 num_trains_per_train_loop=1000,
-                min_num_steps_before_training=100,
+                min_num_steps_before_training=10000,
                 vae_training_schedule=vae_schedules.custom_schedule_2,
                 oracle_data=False,
                 vae_save_period=50,

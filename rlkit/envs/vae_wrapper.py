@@ -396,6 +396,25 @@ class VAEWrappedEnv(ProxyEnv, MultitaskEnv):
         )
         return imgs[0]
 
+    def _get_encoded(self, flat_img):
+        latent_distribution_params = self.vae.encode(ptu.from_numpy(flat_img.reshape(1,-1)))
+        return latent_distribution_params
+
+    def _get_img(self,latent_distribution_params):
+        reconstructions, _ = self.vae.decode(latent_distribution_params[0])
+        imgs = ptu.get_numpy(reconstructions)
+        imgs = imgs.reshape(
+            1, self.input_channels, self.imsize, self.imsize
+        )
+        return imgs[0]
+
+    def _get_img_1(self,latent_distribution_params):
+        reconstructions, _ = self.vae.decode(latent_distribution_params)
+        imgs = ptu.get_numpy(reconstructions)
+        imgs = imgs.reshape(
+            1, self.input_channels, self.imsize, self.imsize
+        )
+        return imgs[0]
     def _image_and_proprio_from_decoded(self, decoded):
         if decoded is None:
             return None, None

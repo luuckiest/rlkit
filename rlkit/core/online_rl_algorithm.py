@@ -35,6 +35,7 @@ class OnlineRLAlgorithm(BaseRLAlgorithm, metaclass=abc.ABCMeta):
             evaluation_data_collector,
             replay_buffer,
         )
+        print("online_rl_algorithm")
         self.batch_size = batch_size
         self.max_path_length = max_path_length
         self.num_epochs = num_epochs

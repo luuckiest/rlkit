@@ -5,7 +5,7 @@ def multitask_rollout(
         env,
         agent,
         max_path_length=np.inf,
-        render=False,
+        render=True,
         render_kwargs=None,
         observation_key=None,
         desired_goal_key=None,
@@ -28,6 +28,7 @@ def multitask_rollout(
     path_length = 0
     agent.reset()
     o = env.reset()
+    print(o)
     if render:
         env.render(**render_kwargs)
     goal = o[desired_goal_key]
@@ -35,7 +36,9 @@ def multitask_rollout(
         dict_obs.append(o)
         if observation_key:
             o = o[observation_key]
+            #print(o)
         new_obs = np.hstack((o, goal))
+        print(new_obs)
         a, agent_info = agent.get_action(new_obs, **get_action_kwargs)
         next_o, r, d, env_info = env.step(a)
         if render:
@@ -77,7 +80,7 @@ def rollout(
         env,
         agent,
         max_path_length=np.inf,
-        render=False,
+        render=True,
         render_kwargs=None,
 ):
     """

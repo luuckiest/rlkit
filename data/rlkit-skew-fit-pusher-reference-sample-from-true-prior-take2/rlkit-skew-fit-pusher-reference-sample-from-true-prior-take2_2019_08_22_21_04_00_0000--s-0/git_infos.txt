@@ -1,4 +1,0 @@
-directory: /home/xiaomin/Downloads/rlkit/rlkit/..
-git hash: 2e8097f2a2c4d4d5079f12b8210f8ac8f250aee0
-git branch name: master
-

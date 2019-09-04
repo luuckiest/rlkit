@@ -278,26 +278,26 @@ def setup_logger(
     exp_name = log_dir.split("/")[-1]
     logger.push_prefix("[%s] " % exp_name)
 
-    if git_infos is not None:
-        for (
-            directory, code_diff, code_diff_staged, commit_hash, branch_name
-        ) in git_infos:
-            if directory[-1] == '/':
-                directory = directory[:-1]
-            diff_file_name = directory[1:].replace("/", "-") + ".patch"
-            diff_staged_file_name = (
-                directory[1:].replace("/", "-") + "_staged.patch"
-            )
-            if code_diff is not None and len(code_diff) > 0:
-                with open(osp.join(log_dir, diff_file_name), "w") as f:
-                    f.write(code_diff + '\n')
-            if code_diff_staged is not None and len(code_diff_staged) > 0:
-                with open(osp.join(log_dir, diff_staged_file_name), "w") as f:
-                    f.write(code_diff_staged + '\n')
-            with open(osp.join(log_dir, "git_infos.txt"), "a") as f:
-                f.write("directory: {}\n".format(directory))
-                f.write("git hash: {}\n".format(commit_hash))
-                f.write("git branch name: {}\n\n".format(branch_name))
+    # if git_infos is not None:
+    #     for (
+    #         directory, code_diff, code_diff_staged, commit_hash, branch_name
+    #     ) in git_infos:
+    #         if directory[-1] == '/':
+    #             directory = directory[:-1]
+    #         diff_file_name = directory[1:].replace("/", "-") + ".patch"
+    #         diff_staged_file_name = (
+    #             directory[1:].replace("/", "-") + "_staged.patch"
+    #         )
+    #         if code_diff is not None and len(code_diff) > 0:
+    #             with open(osp.join(log_dir, diff_file_name), "w") as f:
+    #                 f.write(code_diff + '\n')
+    #         if code_diff_staged is not None and len(code_diff_staged) > 0:
+    #             with open(osp.join(log_dir, diff_staged_file_name), "w") as f:
+    #                 f.write(code_diff_staged + '\n')
+    #         with open(osp.join(log_dir, "git_infos.txt"), "a") as f:
+    #             f.write("directory: {}\n".format(directory))
+    #             f.write("git hash: {}\n".format(commit_hash))
+    #             f.write("git branch name: {}\n\n".format(branch_name))
     if script_name is not None:
         with open(osp.join(log_dir, "script_name.txt"), "w") as f:
             f.write(script_name)

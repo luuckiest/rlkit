@@ -69,7 +69,6 @@ def train_vae_and_update_variant(variant):
         )
         vae, vae_train_data, vae_test_data = train_vae(train_vae_variant,
                                                        return_data=True)
-        print(vae, vae_train_data, vae_test_data )
         if skewfit_variant.get('save_vae_data', False):
             skewfit_variant['vae_train_data'] = vae_train_data
             skewfit_variant['vae_test_data'] = vae_test_data
@@ -140,8 +139,10 @@ def train_vae(variant, return_data=False):
     save_period = variant['save_period']
     dump_skew_debug_plots = variant.get('dump_skew_debug_plots', False)
     for epoch in range(variant['num_epochs']):
+        print("train_vae___________________________")
         print('epoch')
         print(epoch)
+        print("train_vae___________________________")
         should_save_imgs = (epoch % save_period == 0)
         t.train_epoch(epoch)
         t.test_epoch(
@@ -225,6 +226,7 @@ def generate_vae_dataset(variant):
                         vae_dataset_specific_env_kwargs[key] = val
                 env = env_class(**vae_dataset_specific_env_kwargs)
             if not isinstance(env, ImageEnv):
+                print("image_env")
                 env = ImageEnv(
                     env,
                     imsize,
@@ -247,7 +249,6 @@ def generate_vae_dataset(variant):
                 policy = OUStrategy(env.action_space)
             dataset = np.zeros((N, imsize * imsize * num_channels),
                                dtype=np.uint8)
-            print(env)
             for i in range(N):
                 if random_and_oracle_policy_data:
                     print('random_and_oracle_policy_data')
@@ -311,8 +312,11 @@ def get_envs(variant):
     from rlkit.envs.vae_wrapper import VAEWrappedEnv
     from rlkit.util.io import load_local_or_remote_file
 
-    render = variant.get('render', False)
+    render = variant.get('render', True)
     vae_path = variant.get("vae_path", None)
+    # print("vae_path_______________________")
+    # print(vae_path)
+    # print("vae_path_______________________")
     reward_params = variant.get("reward_params", dict())
     init_camera = variant.get("init_camera", None)
     do_state_exp = variant.get("do_state_exp", False)
@@ -323,6 +327,7 @@ def get_envs(variant):
 
     vae = load_local_or_remote_file(vae_path) if type(
         vae_path) is str else vae_path
+
     if 'env_id' in variant:
         import gym
         import multiworld
@@ -628,7 +633,7 @@ def getdata(variant):
     skewfit_variant = variant['skewfit_variant']
     print('-------------------------------')
     skewfit_preprocess_variant(skewfit_variant)
-    skewfit_variant['render'] = False
+    skewfit_variant['render'] = True
     vae_environment = get_envs(skewfit_variant)
     print('done loading vae_env')
 
@@ -695,6 +700,7 @@ def getdata(variant):
                         vae_dataset_specific_env_kwargs[key] = val
                 env = env_class(**vae_dataset_specific_env_kwargs)
             if not isinstance(env, ImageEnv):
+                print("using(ImageEnv)")
                 env = ImageEnv(
                     env,
                     imsize,
@@ -717,13 +723,16 @@ def getdata(variant):
                 policy = OUStrategy(env.action_space)
             dataset = np.zeros((N, imsize * imsize * num_channels),
                                dtype=np.uint8)
-            for i in range(10000):
+
+            for i in range(10):
                 NP = []
                 if True:
                     print(i)
                     #print('th step')
                     goal = env.sample_goal()
-                    print(goal)
+                    # print("goal___________________________")
+                    # print(goal)
+                    # print("goal___________________________")
                     env.set_to_goal(goal)
                     obs = env._get_obs()
                     #img = img.reshape(3, imsize, imsize).transpose()
@@ -731,13 +740,16 @@ def getdata(variant):
                     # cv2.imshow('img', img)
                     # cv2.waitKey(1)
                     img_1 = obs['image_observation']
-                    print(img_1)
                     img_1 = img_1.reshape(3, imsize, imsize).transpose()
+                    NP.append(img_1)
                     if i % 3 ==0:
                         cv2.imshow('img1', img_1)
                         cv2.waitKey(1)
-                    img_1_reconstruct = vae_environment._reconstruct_img(obs['image_observation']).transpose()
-                    print(img_1_reconstruct)
+                    #img_1_reconstruct = vae_environment._reconstruct_img(obs['image_observation']).transpose()
+                    encoded_1 = vae_environment._get_encoded(obs['image_observation'])
+                    print(encoded_1)
+                    NP.append(encoded_1)
+                    img_1_reconstruct = vae_environment._get_img(encoded_1).transpose()
                     NP.append(img_1_reconstruct)
                     #dataset[i, :] = unormalize_image(img)
                     # img_1 = img_1.reshape(3, imsize, imsize).transpose()
@@ -752,10 +764,14 @@ def getdata(variant):
                     # obs = env._get_obs()
                     img_2 = obs['image_observation']
                     img_2 = img_2.reshape(3, imsize, imsize).transpose()
+                    NP.append(img_2)
                     if i % 3 ==0:
                         cv2.imshow('img2', img_2)
                         cv2.waitKey(1)
-                    img_2_reconstruct = vae_environment._reconstruct_img(obs['image_observation']).transpose()
+                    #img_2_reconstruct = vae_environment._reconstruct_img(obs['image_observation']).transpose()
+                    encoded_2 = vae_environment._get_encoded(obs['image_observation'])
+                    NP.append(encoded_2)
+                    img_2_reconstruct = vae_environment._get_img(encoded_2).transpose()
                     NP.append(img_2_reconstruct)
                     NP.append(instr)
                     # img_2 = img_2.reshape(3, imsize, imsize).transpose()
@@ -763,10 +779,36 @@ def getdata(variant):
                         cv2.imshow('img2_reconstruct', img_2_reconstruct)
                         cv2.waitKey(1)
                     NP = np.array(NP)
-                    print(NP)
                     idx = str(i)
-                    name = "/home/xiaomin/Downloads/IFIG_DATA_VAE_300_10000/" + idx +".npy"
+                    name = "/home/xiaomin/Downloads/IFIG_DATA_1/" + idx +".npy"
                     np.save(open(name, 'wb'), NP)
                     # radius = input('waiting...')
+
+                # #get the in between functions
+            import dill
+            import pickle
+            get_encoded = dill.dumps(vae_environment._get_encoded)
+            with open("/home/xiaomin/Downloads/IFIG_encoder_decoder/get_encoded_1000_epochs_one_puck.txt", "wb") as fp:
+                pickle.dump(get_encoded, fp)
+            with open("/home/xiaomin/Downloads/IFIG_encoder_decoder/get_encoded_1000_epochs_one_puck.txt", "rb") as fp:
+                b = pickle.load(fp)
+            func_get_encoded = dill.loads(b)
+            encoded = func_get_encoded(obs['image_observation'])
+            print(encoded)
+            print('------------------------------')
+            get_img = dill.dumps(vae_environment._get_img)
+            with open("/home/xiaomin/Downloads/IFIG_encoder_decoder/get_img_1000_epochs_one_puck.txt", "wb") as fp:
+                pickle.dump(get_img, fp)
+            with open("/home/xiaomin/Downloads/IFIG_encoder_decoder/get_img_1000_epochs_one_puck.txt", "rb") as fp:
+                c = pickle.load(fp)
+            func_get_img = dill.loads(c)
+
+            img_1_reconstruct = func_get_img(encoded).transpose()
+            print(img_1_reconstruct)
+            #dataset[i, :] = unormalize_image(img)
+            # img_1 = img_1.reshape(3, imsize, imsize).transpose()
+            cv2.imshow('test', img_1_reconstruct)
+            cv2.waitKey(0)
+
             print("done making training data", filename, time.time() - now)
             np.save(filename, dataset)
