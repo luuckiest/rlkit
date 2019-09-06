@@ -5,10 +5,7 @@ import rlkit.torch.vae.vae_schedules as vae_schedules
 from rlkit.launchers.skewfit_experiments import skewfit_full_experiment
 from rlkit.torch.vae.conv_vae import imsize48_default_architecture
 
-
 if __name__ == "__main__":
-
-    print("dHELLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOO")
     variant = dict(
         algorithm='Skew-Fit',
         double_algo=False,
@@ -47,7 +44,7 @@ if __name__ == "__main__":
                 num_expl_steps_per_train_loop=500,
                 num_trains_per_train_loop=1000,
                 min_num_steps_before_training=10000,
-                vae_training_schedule=vae_schedules.custom_schedule_2,
+                vae_training_schedule=vae_schedules.never_train,
                 oracle_data=False,
                 vae_save_period=50,
                 parallel_vae_train=False,
@@ -77,8 +74,8 @@ if __name__ == "__main__":
             exploration_goal_sampling_mode='vae_prior',
             evaluation_goal_sampling_mode='reset_of_env',
             normalize=False,
-            render=True,
-            exploration_noise=0.0,
+            render=False,
+            exploration_noise=0,
             exploration_type='ou',
             training_mode='train',
             testing_mode='test',

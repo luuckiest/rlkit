@@ -8,7 +8,7 @@
     "$function": "multiworld.envs.mujoco.cameras.sawyer_init_camera_zoomed_in"
   },
   "online_vae_exploration": false,
-  "seed": "35490",
+  "seed": "62094",
   "skewfit_variant": {
     "algo_kwargs": {
       "batch_size": 1024,
@@ -21,7 +21,7 @@
       "parallel_vae_train": false,
       "vae_save_period": 50,
       "vae_training_schedule": {
-        "$function": "rlkit.torch.vae.vae_schedules.never_train"
+        "$function": "rlkit.torch.vae.vae_schedules.custom_schedule_2"
       }
     },
     "custom_goal_sampler": "replay_buffer",
@@ -30,7 +30,7 @@
     "exploration_goal_sampling_mode": "vae_prior",
     "exploration_noise": 0.0,
     "exploration_type": "ou",
-    "max_path_length": 250,
+    "max_path_length": 50,
     "normalize": false,
     "observation_key": "latent_observation",
     "online_vae_trainer_kwargs": {

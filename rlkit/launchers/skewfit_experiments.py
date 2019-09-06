@@ -314,9 +314,9 @@ def get_envs(variant):
 
     render = variant.get('render', True)
     vae_path = variant.get("vae_path", None)
-    # print("vae_path_______________________")
-    # print(vae_path)
-    # print("vae_path_______________________")
+    print("vae_path_______________________")
+    print(vae_path)
+    print("vae_path_______________________")
     reward_params = variant.get("reward_params", dict())
     init_camera = variant.get("init_camera", None)
     do_state_exp = variant.get("do_state_exp", False)

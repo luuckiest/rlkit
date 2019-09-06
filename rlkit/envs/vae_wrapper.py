@@ -104,7 +104,7 @@ class VAEWrappedEnv(ProxyEnv, MultitaskEnv):
             {'latent_achieved_goal': new_obs['latent_achieved_goal'],
              'latent_desired_goal': new_obs['latent_desired_goal']}
         )
-        self.try_render(new_obs)
+        #self.try_render(new_obs)
         return new_obs, reward, done, info
 
     def _update_obs(self, obs):
@@ -176,6 +176,7 @@ class VAEWrappedEnv(ProxyEnv, MultitaskEnv):
 
         goals['desired_goal'] = latent_goals
         goals['latent_desired_goal'] = latent_goals
+    #    print(latent_goals)
         if proprio_goals is not None:
             goals['proprio_desired_goal'] = proprio_goals
         if image_goals is not None:

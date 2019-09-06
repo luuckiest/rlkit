@@ -323,6 +323,7 @@ class ConvVAETrainer(object):
         log_probs = []
         kles = []
         zs = []
+        print("Training VAE")
         beta = float(self.beta_schedule.get_value(epoch))
         for batch_idx in range(batches):
             if sample_batch is not None:
